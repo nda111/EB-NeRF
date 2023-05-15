@@ -1,0 +1,26 @@
+# 'llff.fern',     'synth.mic',    'llff.trex',    'synth.drums',     #
+# 'llff.fortress', 'synth.chair',  'llff.orchids', 'synth.lego',      #
+# 'llff.flower',   'synth.ship',   'llff.room',    'synth.hotdog',    #
+# 'llff.leaves',   'synth.ficus',  'llff.horns',   'synth.materials', #
+
+novel_train: 
+  - 'llff.fern'
+  - 'llff.fortress'
+  - 'llff.orchids'
+  - 'synth.chair'
+  - 'synth.hotdog'
+  - 'synth.mic'
+
+novel_eval: 
+  - 'llff.leaves'
+  - 'llff.horns'
+  - 'synth.ficus'
+  - 'synth.ship'
+
+experts: 
+  - llff.flower
+  - llff.room
+  - llff.trex
+  - synth.drums
+  - synth.lego
+  - synth.materials

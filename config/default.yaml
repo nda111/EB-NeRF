@@ -1,0 +1,16 @@
+device: ${auto_device:}
+seed: null
+deterministic: no
+
+split: default
+no_shuffle: no
+n_rays: 1024
+
+expname: ${today:}_${now:}
+architecture: vanilla_nerf
+
+epochs: 10_000
+learning_rate: 1.0E-3
+
+eval_period: 100
+render_period: 1_000

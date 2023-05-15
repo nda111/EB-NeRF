@@ -1,0 +1,28 @@
+# # Test
+# python run_nerf.py --config configs/fern.txt --expname test/cross/fern/scratch                               --i_video 1000 --n_iters 10000 --device 0
+# python run_nerf.py --config configs/fern.txt --expname test/cross/fern/trex_coarse_only --transfer llff.trex --i_video 1000 --n_iters 10000 --device 1
+# python run_nerf.py --config configs/fern.txt --expname test/cross/fern/trex_fine_only   --transfer llff.trex --i_video 1000 --n_iters 10000 --device 2
+# python run_nerf.py --config configs/fern.txt --expname test/cross/fern/trex             --transfer llff.trex --i_video 1000 --n_iters 10000 --device 3
+
+python run_nerf.py --config configs/fern.txt --expname llff/cross/fern/flower   --transfer llff.fern --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/fern.txt --expname llff/cross/fern/fortress --transfer llff.fern --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/fern.txt --expname llff/cross/fern/horns    --transfer llff.fern --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/fern.txt --expname llff/cross/fern/leaves   --transfer llff.fern --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/fern.txt --expname llff/cross/fern/orchids  --transfer llff.fern --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/fern.txt --expname llff/cross/fern/room     --transfer llff.fern --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/fern.txt --expname llff/cross/fern/trex     --transfer llff.fern --i_video 1000 --n_iters 10000 --device [ID]
+
+python run_nerf.py --config configs/trex.txt --expname llff/cross/trex/fern     --transfer llff.trex --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/trex.txt --expname llff/cross/trex/flower   --transfer llff.trex --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/trex.txt --expname llff/cross/trex/fortress --transfer llff.trex --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/trex.txt --expname llff/cross/trex/horns    --transfer llff.trex --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/trex.txt --expname llff/cross/trex/leaves   --transfer llff.trex --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/trex.txt --expname llff/cross/trex/orchids  --transfer llff.trex --i_video 1000 --n_iters 10000 --device [ID]
+python run_nerf.py --config configs/trex.txt --expname llff/cross/trex/room     --transfer llff.trex --i_video 1000 --n_iters 10000 --device [ID]
+
+# python run_nerf.py --config configs/flower.txt    --expname llff/cross/flower    --i_video 10000 --n_iters 100000 --device [ID]
+# python run_nerf.py --config configs/fortress.txt  --expname llff/cross/fortress  --i_video 10000 --n_iters 100000 --device [ID]
+# python run_nerf.py --config configs/horns.txt     --expname llff/cross/horns     --i_video 10000 --n_iters 100000 --device [ID]
+# python run_nerf.py --config configs/leaves.txt    --expname llff/cross/leaves    --i_video 10000 --n_iters 100000 --device [ID]
+# python run_nerf.py --config configs/orchids.txt   --expname llff/cross/orchids   --i_video 10000 --n_iters 100000 --device [ID]
+# python run_nerf.py --config configs/room.txt      --expname llff/cross/room      --i_video 10000 --n_iters 100000 --device [ID]

@@ -1,0 +1,14 @@
+blender[0].weight=Parameter containing:
+tensor([[1., 1., 1.],
+        [1., 1., 1.]], requires_grad=True) 
+
+epoch=0, generator_loss=tensor(0.2983)
+epoch=1, generator_loss=tensor(0.2049)
+epoch=2, generator_loss=tensor(0.1115)
+epoch=3, generator_loss=tensor(0.0181)
+epoch=4, generator_loss=tensor(-0.0753)
+epoch=5, generator_loss=tensor(-0.1686)
+epoch=6, generator_loss=tensor(-0.2620)
+epoch=7, generator_loss=tensor(-0.3554)
+epoch=8, generator_loss=tensor(-0.4488)
+epoch=9, generator_loss=tensor(-0.5422)

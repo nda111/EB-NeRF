@@ -1,0 +1,8 @@
+python run_nerf.py --config configs/chair.txt     --expname synth/e100k/chair     --i_video 10000 --n_iters 100000 --device [ID]
+python run_nerf.py --config configs/ficus.txt     --expname synth/e100k/ficus     --i_video 10000 --n_iters 100000 --device [ID]
+python run_nerf.py --config configs/lego.txt      --expname synth/e100k/lego      --i_video 10000 --n_iters 100000 --device [ID]
+python run_nerf.py --config configs/mic.txt       --expname synth/e100k/mic       --i_video 10000 --n_iters 100000 --device [ID]
+python run_nerf.py --config configs/ship.txt      --expname synth/e100k/ship      --i_video 10000 --n_iters 100000 --device [ID]
+python run_nerf.py --config configs/hotdog.txt    --expname synth/e100k/hotdog    --i_video 10000 --n_iters 100000 --device [ID]
+python run_nerf.py --config configs/drums.txt     --expname synth/e100k/drums     --i_video 10000 --n_iters 100000 --device [ID]
+python run_nerf.py --config configs/materials.txt --expname synth/e100k/materials --i_video 10000 --n_iters 100000 --device [ID]
