@@ -37,7 +37,7 @@ add('--no_shuffle', action='store_true')
 add('--n_rays', type=int)
 
 add('--expname', '-n', type=str)
-add('--architecture', '-a', type=str, choices=models.arch_names)
+add('--architecture', '-a', type=str, choices=models.generator.arch_names)
 
 add('--epochs', type=int)
 add('--learning_rate', type=float)
@@ -117,10 +117,8 @@ if DEVICE.type == 'cuda':
 #region Dataset
 def load_datasets(split: str):
     kwargs = dict(
-        device=DEVICE,
         split=split,
-        n_rays=CFG.n_rays,
-        shuffle=(not CFG.no_shuffle) and (split == 'train'),
+        N_rand=CFG.n_rays
     )
     for info in SPLIT_INFO[f'novel_{split}']:
         data_name, scene_name = info.split('.')
@@ -133,16 +131,14 @@ evalset_cycle = itertools.cycle(load_datasets('val'))
 #region Experts, Networks, Optimizer
 load_expert_fn = {
     models.generator.VANILLA_NERF: lambda data_name, scene_name: 
-        torch.load(f'nerf/logs/{data_name}/e100k/{scene_name}')['network_fine_state_dict'],
-    # models.generator.POINT_NERF: '',  # TODO:
-    # models.generator.INSTANT_NGP: '',
+        torch.load(f'nerf/logs/{data_name}/e100k/{scene_name}/100000.tar')['network_fine_state_dict'],
 }[CFG.architecture]
 experts_info = [info.split('.') for info in SPLIT_INFO['experts']]
 experts = [load_expert_fn(data_name, scene_name) for data_name, scene_name in experts_info]
 
 pool = models.blending.pool.TensorBlendingPool(experts)
 serializer = pool.serializer
-blender = models.blending.Blender(expert_dim=pool.expert_dim, num_experts=pool.num_experts).to(DEVICE)
+blender = models.blending.Blender(expert_dim=pool.expert_dim, num_experts=pool.num_experts, transit_steps=1).to(DEVICE)
 
 generator_kwargs = models.generator.arch_kwargs_map[CFG.architecture]
 generator = models.generator.Generator(arch=CFG.architecture, **generator_kwargs).to(DEVICE).eval()
@@ -157,7 +153,7 @@ with tqdm(range(1, CFG.epochs + 1), desc='EPOCH', position=1, leave=False) as ep
         
         # train blender
         blender.train()
-        train_rays, train_rgbs = next(trainset_cycle)
+        train_rays, train_rgbs = next(trainset_cycle)[0]
         
         # blending
         weights = blender(train_rays)  # ..........................................| 1. Inference blending weights.
@@ -187,17 +183,18 @@ with tqdm(range(1, CFG.epochs + 1), desc='EPOCH', position=1, leave=False) as ep
             # eval blender if it is the epoch to
             if check_period(CFG.eval_period):
                 blender.eval()
-                eval_rays, eval_rgbs = next(evalset_cycle)
+                eval_rays, eval_rgbs = next(evalset_cycle)[0]
                 
                 weights = blender(eval_rays)
                 expert_inf = pool(weights)
                 generator.load_state_dict(serializer.deserialize(expert_inf)) 
                 
                 output = generator(eval_rays)
-                psnr       = utils.metrics.psnr(output, eval_rgbs)               # TODO:
-                ssim       = utils.metrics.ssim(output, eval_rgbs)               # TODO:
-                lpips_alex = utils.metrics.lpips(output, eval_rgbs, net='alex')  # TODO:
-                lpips_vgg  = utils.metrics.lpips(output, eval_rgbs, net='vgg')   # TODO:
+                # TODO: render output, eval_rgbs to images here.
+                psnr       = utils.metrics.psnr(output, eval_rgbs)              
+                ssim       = utils.metrics.ssim(output, eval_rgbs)              
+                lpips_alex = utils.metrics.lpips(output, eval_rgbs, net='alex') 
+                lpips_vgg  = utils.metrics.lpips(output, eval_rgbs, net='vgg')  
                 epoch_bar.set_postfix_str(f'PSNR={psnr:.2f}, SSIM={ssim:.4f}')
                 _print(f'PSNR={psnr:.2f}', cli=False)
                 _print(f'SSIM={ssim:.5f}', cli=False)
@@ -209,7 +206,7 @@ with tqdm(range(1, CFG.epochs + 1), desc='EPOCH', position=1, leave=False) as ep
             # render demo video
             if check_period(CFG.render_period):
                 if dataset is None:
-                    eval_rays, eval_rgbs = next(evalset_cycle)
+                    eval_rays, eval_rgbs = next(evalset_cycle)[0]
                 # TODO:
             pass
 #endregion

@@ -73,20 +73,22 @@ class RayDataset(Dataset):
         out = torch.cat([x, period_out], dim=1)
         return out
     
-    def __init__(self, dataset, scene, split='train', L_rays=10, L_rgb=4):
+    def __init__(self, dataset, scene, split='train', N_rand=10):
         self.dataset = dataset
         self.scene = scene
         self.split = split
-        self.L_rays = L_rays
-        self.L_rgb = L_rgb
+        self.N_rand = N_rand
         
         config = _get_config(scene)
+        config['N_rand'] = self.N_rand
+        config['split'] = self.split
+        
         datadir = _get_datadir(dataset, scene)
         dataset_cls = {
             SYNTHETIC: BlenderDataset,
             LLFF_DATA: LlffDataset,
         }[dataset]
-        self.__dataset = dataset_cls(data_dir=datadir, split=split, **config)
+        self.__dataset = dataset_cls(data_dir=datadir, **config)
     
     def __getitem__(self, idx):
         rays, rgbs = self.__dataset[idx]

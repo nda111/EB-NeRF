@@ -147,9 +147,9 @@ class LlffDataset(Dataset):
             rays_o = rays_o[select_coords[:, 0], select_coords[:, 1]]  # (N_rand, 3)
             rays_d = rays_d[select_coords[:, 0], select_coords[:, 1]]  # (N_rand, 3)
             
-            near = self.near * torch.one_like(rays_d[..., :1])
-            far = self.far * torch.one_like(rays_d[..., :1])
-            rays = torch.cat([rays_o, rays_d, near, far], dim=-1)
+            near = self.near * np.ones_like(rays_d[..., :1])
+            far = self.far * np.ones_like(rays_d[..., :1])
+            rays = np.concatenate([rays_o, rays_d, near, far], axis=-1)
 
             rays = np.stack([rays_o, rays_d], 0)  # (2, N_rand, 3)
             #  rays = rays.transpose(1, 0, 2)  # (N_rand, 2, 3)
